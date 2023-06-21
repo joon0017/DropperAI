@@ -68,11 +68,6 @@ public class BasketAgent : Agent
         sensor.AddObservation(ballTr.localPosition.x);
         sensor.AddObservation(rb.velocity.x);
     }
-    // private void Update() {
-    //     if(Mathf.Floor(Time.time ) % 2 == 1){
-    //         ++lazyPoint;
-    //     }
-    // }
     
     public override void OnActionReceived(ActionBuffers actions){
         
@@ -87,24 +82,15 @@ public class BasketAgent : Agent
             EndEpisode();
         }
         SetReward(-0.005f);
-
-        // if(count >= missedCount){
-        //     SetReward(lazyPoint * count * 0.001f);
-        // }
-        // else{
-        //     SetReward(lazyPoint * missedCount * 0.003f);
-        // }
     }
     public override void Heuristic(in ActionBuffers actionsOut){
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         continuousActions[0] = Input.GetAxis("Horizontal");
-        // Debug.Log($"[0] = {continuousActions[0]}");
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.CompareTag("Ball")){
             other.gameObject.SetActive(false);
-            // AddReward(0.3f);
             count++;
             lazyPoint = 0;
             if(count >= 5){
